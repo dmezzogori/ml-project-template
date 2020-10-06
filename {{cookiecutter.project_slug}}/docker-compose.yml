@@ -1,0 +1,17 @@
+version: "2.3"
+
+services:
+
+  {{cookiecutter.project_slug}}-gpu:
+    image: mezzo/ml-gpu
+    runtime: nvidia
+    restart: unless-stopped
+    user: "1000:1000"
+    ipc: host
+    ports:
+      - "${JUPYTER_PORT}:${JUPYTER_PORT}"
+    volumes:
+      - ./.jupyter:/root/.jupyter
+      - ./notebooks:/home/davide/workspace/notebooks
+      - ./data:/home/davide/workspace/data
+    command: /opt/conda/bin/jupyter notebook --ip=0.0.0.0 --port=${JUPYTER_PORT}
